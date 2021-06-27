@@ -24,7 +24,7 @@ We need an architecture to make it possible to process the data.
 We are seeing a rising trend that computation is moving closer to the I/O devices, which means, bypassing every abstraction provided. Consider a network card, generally, we have three levels of abstractions:
 
 - Application: This is the place where usually all computation happened. Userspace application talks to I/O devices using syscall.
-- Kernel: Kernel provides a set of syscall to manipulate hardware. It's also responsible for handling events or interruptions from hardware and notify or schedule the user space application in some way.
+- Kernel: Kernel provides a set of syscall to manipulate hardware. It's also responsible for handling events or interruptions from hardware and notify or schedule the userspace application in some way.
 - Hardware: The physical I/O device.
 
 Traditionally, all data computation should happen in the application, then sending or receiving the data using syscall. But syscall becomes more and more expensive due to the less capable CPU compare to I/O device. So we have different ways to bypass or mitigate the cost of abstraction:
@@ -35,7 +35,7 @@ Traditionally, all data computation should happen in the application, then sendi
 
 <img src="/assets/2021-06-27-toward-decoupled-system-architecture/traditional_architechture.svg" alt="System Architechture" width="60%" />
 
-All of these methods move the computation closer to the hardware: DPDK/SPDK move the driver into user space and bypass kernel; libos/unikernel move Application into the (maybe virtualized) kernel; eBPF split the application into multiple parts, userspace application is used as the control plane of eBPF programs. But can we go further? Why computation must be separated from the I/O device?
+All of these methods move the computation closer to the hardware: DPDK/SPDK move the driver into userspace and bypass kernel; libos/unikernel move Application into the (maybe virtualized) kernel; eBPF split the application into multiple parts, userspace application is used as the control plane of eBPF programs. But can we go further? Why computation must be separated from the I/O device?
 
 > For many years, the highest energy cost in processing has been data movement rather than computation, and energy is the limiting factor in processor design. As the data needed for a single application grows to exabytes, there is an opportunity to design a bandwidth-optimized architecture for big data computation by specialising hardware for data movement. [[10]](#10)
 
@@ -45,7 +45,7 @@ Moving computation to the place where I/O happened removes all of the overhead f
 
 The system architecture is becoming decoupled as computation distributed to different parts of systems instead of a centralized application. Although the integrated design may improve reliability a bit by reducing communication errors, we have to handle CPU errors in the program when corrupt execution errors can't be simply considered almost impossible [[11]](#11). Based on the End-to-End Argument [[12]](#12), handling hardware errors in a program is inevitable when the system is complex enough. Splitting system into multiple parts and communicate explicitly can improve fault isolation, which can result in a more reliable system.
 
-All these imply that we can't improve the system by adding complexities to the existing components. To adapt to the hardware trends, we are seeing more microkernel-like system design, moving features from kernel to user space [[13]](#13) or splitting kernel into isolated parts as "eBPF is turning the Linux kernel into a microkernel." [[14]](#14). The motivation is we can't ship a kernel which extremely optimised for specialised needs while keeping generalised and reliable.
+All these imply that we can't improve the system by adding complexities to the existing components. To adapt to the hardware trends, we are seeing more microkernel-like system design, moving features from kernel to userspace [[13]](#13) or splitting kernel into isolated parts as "eBPF is turning the Linux kernel into a microkernel." [[14]](#14). The motivation is we can't ship a kernel which extremely optimised for specialised needs while keeping generalised and reliable.
 
 The kernel will be more like a control plane of all the components. We can have dedicated processes for managing hardware or specialised computation similar to microkernel. RDMA-like API or io\_uring can largely reduce the overhead of IPC, and more computation will be done on the hardware without CPU involved.
 
