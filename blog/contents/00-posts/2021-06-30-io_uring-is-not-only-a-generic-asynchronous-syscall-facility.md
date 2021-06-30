@@ -4,7 +4,7 @@ authors: [fancl20]
 date: 2021-06-30
 ---
 
-TL;DR\: After reading [`io_uring` is not an event system](https://despairlabs.com/posts/2021-06-16-io-uring-is-not-an-event-system/), I think there is another way to consider why `io_uring` can adapt to every use case: `io_uring` is more than a generic asynchronous syscall facility. It's the state-of-the-art asynchronous interface in the userspace for communication between subsystems.
+TL;DR\: After reading [`io_uring` is not an event system](https://despairlabs.com/posts/2021-06-16-io-uring-is-not-an-event-system/), I think there is another way to consider why `io_uring` can adapt to every use case: `io_uring` is more than a generic asynchronous syscall facility. It's the state-of-the-art asynchronous interface implemented in the userspace for communication between subsystems.
 
 Starting from describing an abstract interface, a typical `io_uring` like interface contains these parts:
 
@@ -19,7 +19,7 @@ Starting from describing an abstract interface, a typical `io_uring` like interf
     - Send events in a reverse direction to the control flow.
     - Nice to have: We can poll the events if the interrupt is not available with some busy looping penalties.
 
-These three components can describe not only the design of `io_uring` but also lots of other system designs, including Hardware DMA interface, RDMA interface, [netmap](https://dl.acm.org/doi/10.5555/2342821.2342830), [snap](https://doi.org/10.1145/3341301.3359657). All these system architectures share the same view of the subsystem, that the standalone subsystem will run continuously regardless of the application's state. In contrast, the synchronous view will be that the "remote function call" is part of the application instruction flow.
+These three components can describe not only the design of `io_uring` but also lots of other system designs, including Hardware DMA interface, RDMA interface, [netmap](https://dl.acm.org/doi/10.5555/2342821.2342830), [Snap](https://doi.org/10.1145/3341301.3359657). All these system architectures share the same view of the subsystem, that the standalone subsystem will run continuously regardless of the application's state. In contrast, the synchronous view will be that the "remote function call" is part of the application instruction flow.
 
 The growing interest in `io_uring` means we are changing the view of syscall as a function call to that kernel is a standalone subsystem. That even makes more sense when [comes to using eBPF with `io_uring`](https://lwn.net/Articles/847951/). Hardware subsystems have their asynchronous nature and kernel is becoming one of them when more complex and customized computation happened in the kernel.
 
