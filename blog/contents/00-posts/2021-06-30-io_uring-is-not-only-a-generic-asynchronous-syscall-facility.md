@@ -4,7 +4,7 @@ authors: [fancl20]
 date: 2021-06-30
 ---
 
-TL;DR\: After reading [`io_uring` is not an event system](https://despairlabs.com/posts/2021-06-16-io-uring-is-not-an-event-system/), I think there is another way to consider why `io_uring` can adapt to every use case: `io_uring` is more than a generic asynchronous syscall facility. It's the state-of-the-art asynchronous interface implemented in the userspace for communication between subsystems.
+TL;DR\: After reading [`io_uring` is not an event system](https://despairlabs.com/posts/2021-06-16-io-uring-is-not-an-event-system/), I think there is another way to consider why `io_uring` can adapt to every use case: `io_uring` is more than a generic asynchronous syscall facility. It's the state-of-the-art asynchronous interface for communication between subsystems implemented between the kernel and the userspace.
 
 Starting from describing an abstract interface, a typical `io_uring` like interface contains these parts:
 
@@ -23,4 +23,4 @@ These three components can describe not only the design of `io_uring` but also l
 
 The growing interest in `io_uring` means we are changing the view of syscall as a function call to that kernel is a standalone subsystem. That even makes more sense when [comes to using eBPF with `io_uring`](https://lwn.net/Articles/847951/). Hardware subsystems have their asynchronous nature and kernel is becoming one of them when more complex and customized computation happened in the kernel.
 
-What's the future of `io_uring`? One possible future is that if we keep improving the performance of `io_uring`, adding fast user-level interrupt, it will become a userspace API mapping for hardware DMA. That means we can build all other syscalls in userspace on top of the DMA mapping.
+What's the future of `io_uring`? One possible future is that if we keep improving the performance of `io_uring`, adding fast user-level interrupt, it will become a userspace API mapping to hardware DMA. That means we can build all other syscalls in userspace on top of the DMA mapping.
