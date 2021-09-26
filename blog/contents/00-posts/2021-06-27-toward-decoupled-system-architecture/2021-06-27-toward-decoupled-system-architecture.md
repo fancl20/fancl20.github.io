@@ -7,7 +7,7 @@ date: 2021-06-27
 ## At the end of Moore's law
 Moore's law was a prediction made in 1965 by Gordon Moore, which states that computer power doubles every two years at the same cost. The law has been predicted [[1]](#1) to be ended at some point - around 2020. So we are literally at the end of Moore's law as nobody is going to change their prediction.
 
-<img src="/assets/2021-06-27-toward-decoupled-system-architecture/faith_no_moore.svg" alt="Faith no Moore" width="100%" />
+![Faith no Moore](faith_no_moore.svg)
 
 If we only consider single-core performance, modern CPUs have already failed to keep up with Moore's law since 2005, when multi-core processor start becoming the majority. It's too hard to improve fabrication - Intel is stuck in 14nm from 2014 until now (2021).
 
@@ -33,7 +33,7 @@ Traditionally, all data computation should happen in the application, then sendi
 - SR-IOV is a hardware virtualization solution that allows partitioning of physical PCI functions into independent virtual PCI functions [[6]](#6). It usually used with unikernel or libos to run a user program in kernel space, by which the user program becomes part of the kernel/libos [[7]](#7).
 - eBPF or BPF is an in-kernel virtual machine that provides the ability to run a limited, verified program in kernel space. It is even described as "A New Type of Software [[8]](#8)". XDP, a Programmable and high performance networking data path, has been built on top of the eBPF [[9]](#9). eBPF is still quite limited and has some performance overhead (compare to DPDK/SPDK), but the adoption is generally much painless compare to DPDK/SPDK or unikernel.
 
-<img src="/assets/2021-06-27-toward-decoupled-system-architecture/traditional_architechture.svg" alt="System Architechture" width="60%" />
+![System Architechture](traditional_architechture.svg)
 
 All of these methods move the computation closer to the hardware: DPDK/SPDK move the driver into userspace and bypass kernel; libos/unikernel move Application into the (maybe virtualized) kernel; eBPF split the application into multiple parts, userspace application is used as the control plane of eBPF programs. But can we go further? Why computation must be separated from the I/O device?
 
