@@ -6,6 +6,8 @@ date: 2021-06-30
 
 TL;DR\: After reading [`io_uring` is not an event system](https://despairlabs.com/posts/2021-06-16-io-uring-is-not-an-event-system/), I think there is another way to consider why `io_uring` can adapt to every use case: `io_uring` is more than a generic asynchronous syscall facility. It's the state-of-the-art asynchronous interface for communication between subsystems implemented between the kernel and the userspace.
 
+----
+
 Starting from describing an abstract interface, a typical `io_uring` like interface contains these parts:
 
 - Control Plane
