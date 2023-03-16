@@ -40,4 +40,4 @@ MS then decided invest 20 cash to OA.
 |**Investments**| 0  | 30 |
 |**Assets**     | 20 | 95 |
 
-At the end of the day, the total assets increased from 90 to 115 - we printed 25 and cost nothing in total to allow OA providing free services!
+At the end of the day, the total assets increased from 90 to 115 - we printed 25 and cost nothing to allow OA providing free services!
