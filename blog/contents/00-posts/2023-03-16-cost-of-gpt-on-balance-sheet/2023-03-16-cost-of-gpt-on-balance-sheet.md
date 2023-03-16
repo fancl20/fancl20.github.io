@@ -16,7 +16,7 @@ To begin our analysis, we need two entities, assuming they are company OA and co
 |**Assets**     | 0  | 90 |
 
 
-MS has 90 cash and decided to invest company OA, which increase OA's valuation by 10 in simplified model.
+MS has 90 cash and decided to invest in company OA, which increase OA's valuation by 10 in a simplified model.
 
 |               | OA | MS |
 |---------------|---:|---:|
@@ -32,7 +32,7 @@ OA is using MS's cloud to provide a service, which OA pays MS 10 and the underly
 |**Investments**| 0  | 10 |
 |**Assets**     | 0  | 95 |
 
-MS then decided invest 20 cash to OA.
+MS then decided to invest 20 cash in OA.
 
 |               | OA | MS |
 |---------------|---:|---:|
@@ -40,4 +40,4 @@ MS then decided invest 20 cash to OA.
 |**Investments**| 0  | 30 |
 |**Assets**     | 20 | 95 |
 
-At the end of the day, the total assets increased from 90 to 115 - we printed 25 and cost nothing to allow OA providing free services!
+At the end of the day, the total assets increased from 90 to 115 - we printed 25 and cost nothing to allow OA to provide free services!
