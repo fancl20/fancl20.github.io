@@ -83,15 +83,8 @@ body {
   border-collapse: collapse;
 }
 
-#content th {
-  border: solid black;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-#content td {
+#content table th,
+#content table td {
   border: solid black;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
