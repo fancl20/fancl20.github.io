@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ThanksForAllTheFish</title>
+    <link rel="stylesheet" href="/assets/styles/katex/katex.min.css">
+    <link rel="stylesheet" href="/assets/styles/hljs/github.css">
+    <link rel="stylesheet" href="/assets/styles/page.css">
+</head>
+
+<body>
+    <div id="main">
+        <div id="navigator"><ul><li><a href="/contents/00-posts.html" class="navigator-link-active">posts</a></li><li><a href="/contents/01-about.html">about</a></li></ul></div>
+        <div id="content-wrapper">
+            <div id="content"><p>TL;DR: <code>io_uring</code> is the state-of-the-art asynchronous interface for communication between subsystems implemented between the kernel and the userspace.</p>
+<hr>
+<p>Starting from describing an abstract interface, a typical <code>io_uring</code> like interface contains these parts:</p>
+<ul>
+<li>Control Plane<ul>
+<li>Send control signal to the subsystem.</li>
+<li>Usually synchronous (e.g. <code>io_uring_enter</code> is synchronous syscall because we wait for the control signal itself finished).</li>
+</ul>
+</li>
+<li>Data Plane<ul>
+<li>Exchange data between subsystems.</li>
+<li>Usually implemented by sharing cache or storage for reducing copying data.</li>
+<li>Can be synchronous, although it must be asynchronous if it&#39;s an <code>io_uring</code> like interface.</li>
+</ul>
+</li>
+<li>Interrupt<ul>
+<li>Send events in a reverse direction to the control flow.</li>
+<li>Nice to have: We can poll the events if the interrupt is not available with some busy looping penalties.</li>
+</ul>
+</li>
+</ul>
+<p>These three components can describe not only the design of <code>io_uring</code> but also lots of other system designs, including Hardware DMA interface, RDMA interface, <a href="https://dl.acm.org/doi/10.5555/2342821.2342830">netmap</a>, <a href="https://doi.org/10.1145/3341301.3359657">Snap</a>. All these system architectures share the same view of the subsystem, that the standalone subsystem will run continuously regardless of the application&#39;s state. In contrast, the synchronous view will be that the &quot;remote function call&quot; is part of the application instruction flow.</p>
+<p>The growing interest in <code>io_uring</code> means we are changing the view of syscall as a function call to that kernel is a standalone subsystem. That even makes more sense when <a href="https://lwn.net/Articles/847951/">comes to using eBPF with <code>io_uring</code></a>. Hardware subsystems have their asynchronous nature and kernel is becoming one of them when more complex and customized computation happened in the kernel.</p>
+<p>What&#39;s the future of <code>io_uring</code>? One possible future is that if we keep improving the performance of <code>io_uring</code>, adding fast user-level interrupt, it will become a userspace API mapping to hardware DMA. That means we can build all other syscalls in userspace on top of the DMA mapping.</p>
+<h2>Updates</h2>
+<p>2021-10-03: Intel is adding <a href="https://lwn.net/ml/linux-kernel/20210913200132.3396598-1-sohil.mehta@intel.com/">x86 User Interrupts support</a>. Although the current implementation only support interrpts from userspace to userspace and doesn&#39;t provide a full control of scheduling.</p>
+</div>
+        </div>
+    </div>
+</body>
+
+</html>
